@@ -13,8 +13,8 @@
     display:flex;
     text-align: center;
     width: 100%;
-    height: 20vh;
-    margin-bottom: 10%;
+    height: 13vh;
+    margin-bottom: 1%;
 }
 
 .hrf-logo-img-container img {
@@ -26,26 +26,64 @@
 .header-text-container {
     text-align: center;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
 }
 
 .header-text-container h1 {
-    font-size: 3rem;
+    font-size: 2rem;
     color: @white;
     font-family: 'moneta';
+    margin: 0;
 }
 
 .header-text-container h3 {
     font-family: 'beatrice regular';
     color: @white;
-    font-size: 1.2rem;
+    font-size: .8rem;
+    margin: 0;
 }
 
-// .graphs-section {
-//  ADD THIS BACK IN WHEN YOU HAVE THE GRAPHS SECTION
-// }
+
+.graphs-section {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 0.6rem;
+    margin-bottom: 20px; 
+}
+  
+  .graphsDiv {
+    text-align: center;
+  }
+  
+  .graph-image {
+    width: 150px;
+    height: auto;
+    margin-bottom: 5px;
+  }
+  
+  .graphsDiv p {
+    margin-top: 5px;
+  }
+  
+  .buttons-container {
+    display: flex;
+    justify-content: center;
+  }
+
 
 .view-more-data-btn-container {
+    height: 44px;
+    width: 180px;
+    margin: 0 auto;
+    text-align: center;
+    margin-bottom: 10%;
+}
+
+.download-data-btn-container {
     height: 44px;
     width: 180px;
     margin: 0 auto;
@@ -57,12 +95,14 @@
     display: flex;
     justify-content: space-evenly;
     align-items: center;
+    margin: 2rem;
 }
 
 .hrf-img {
-    height: 339px;
-    width: 648px;
+    height: 315px;
+    width: 620px;
     border-radius: 10px;
+    margin-right: 20px;
 }
 
 .middle-section-text-container {
@@ -72,12 +112,37 @@
 
 .middle-section-text-container h3 {
     font-family: 'acumin';
-    font-size: 1.4rem;
+    font-size: 1.2rem;
+    line-height: 1.6;
+    text-align: center;
 }
 
-// .bottom-section {
-//      ADD THIS BACK IN WHEN YOU HAVE A BOTTOM SECTION
-// }
+.read-more {
+    text-align: center;
+}
+
+.bottom-section {
+
+    text-align: center;
+  
+}
+
+.insight-secton {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 0.6rem;
+    margin: 5px;
+}
+
+.insight {
+  max-width: 33.33%;
+  margin: 15px;
+}
+
+.insight p{
+    word-wrap: break-word;
+}
 
 .back-to-top {
     width: 8%;
@@ -124,8 +189,8 @@
     }
 
     .header-text-container h3 {
-        font-size: .85rem;
-        width: 85%;
+        font-size: .2rem;
+        width: 75%;
         margin: 0 auto;
     }
 
