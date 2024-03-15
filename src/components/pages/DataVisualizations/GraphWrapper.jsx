@@ -10,7 +10,7 @@ import YearLimitsSelect from './YearLimitsSelect';
 import ViewSelect from './ViewSelect';
 import axios from 'axios';
 import { resetVisualizationQuery } from '../../../state/actionCreators';
-import test_data from '../../../data/test_data.json';
+// import test_data from '../../../data/test_data.json';
 import { colors } from '../../../styles/data_vis_colors';
 import ScrollToTopOnMount from '../../../utils/scrollToTopOnMount';
 
@@ -50,62 +50,36 @@ function GraphWrapper(props) {
         break;
     }
   }
-  function updateStateWithNewData(years, view, office, stateSettingCallback) {
-    /*
-          _                                                                             _
-        |                                                                                 |
-        |   Example request for once the `/summary` endpoint is up and running:           |
-        |                                                                                 |
-        |     `${url}/summary?to=2022&from=2015&office=ZLA`                               |
-        |                                                                                 |
-        |     so in axios we will say:                                                    |
-        |                                                                                 |     
-        |       axios.get(`${url}/summary`, {                                             |
-        |         params: {                                                               |
-        |           from: <year_start>,                                                   |
-        |           to: <year_end>,                                                       |
-        |           office: <office>,       [ <-- this one is optional! when    ]         |
-        |         },                        [ querying by `all offices` there's ]         |
-        |       })                          [ no `office` param in the query    ]         |
-        |                                                                                 |
-          _                                                                             _
-                                   -- Mack 
-    
-    */
 
-    if (office === 'all' || !office) {
-      axios
-        .get(process.env.REACT_APP_API_URI, {
-          // mock URL, can be simply replaced by `${Real_Production_URL}/summary` in prod!
-          params: {
-            from: years[0],
-            to: years[1],
-          },
-        })
-        .then(result => {
-          stateSettingCallback(view, office, test_data); // <-- `test_data` here can be simply replaced by `result.data` in prod!
-        })
-        .catch(err => {
-          console.error(err);
-        });
-    } else {
-      axios
-        .get(process.env.REACT_APP_API_URI, {
-          // mock URL, can be simply replaced by `${Real_Production_URL}/summary` in prod!
-          params: {
-            from: years[0],
-            to: years[1],
-            office: office,
-          },
-        })
-        .then(result => {
-          stateSettingCallback(view, office, test_data); // <-- `test_data` here can be simply replaced by `result.data` in prod!
-        })
-        .catch(err => {
-          console.error(err);
-        });
+  async function updateStateWithNewData(
+    years,
+    view,
+    office,
+    stateSettingCallback
+  ) {
+    const Url = 'https://hrf-asylum-be-b.herokuapp.com/cases';
+
+    let params = {
+      from: years[0],
+      to: years[1],
+    };
+
+    if (office && office !== 'all') {
+      params.office = office;
+    }
+
+    try {
+      const result1 = await axios.get(`${Url}/citizenshipSummary`, { params });
+      const result2 = await axios.get(`${Url}/fiscalSummary`, { params });
+
+      result2.data.citizenshipResults = result1.data;
+
+      stateSettingCallback(view, office, [result2.data]);
+    } catch (err) {
+      console.error(err);
     }
   }
+
   const clearQuery = (view, office) => {
     dispatch(resetVisualizationQuery(view, office));
   };
@@ -145,3 +119,39 @@ function GraphWrapper(props) {
 }
 
 export default connect()(GraphWrapper);
+
+// function updateStateWithNewData(years, view, office, stateSettingCallback) {
+
+//   if (office === 'all' || !office) {
+//     axios
+//       .get(process.env.REACT_APP_API_URI, {
+//         // mock URL, can be simply replaced by `${Real_Production_URL}/summary` in prod!
+//         params: {
+//           from: years[0],
+//           to: years[1],
+//         },
+//       })
+//       .then(result => {
+//         stateSettingCallback(view, office, test_data); // <-- `test_data` here can be simply replaced by `result.data` in prod!
+//       })
+//       .catch(err => {
+//         console.error(err);
+//       });
+//   } else {
+//     axios
+//       .get(process.env.REACT_APP_API_URI, {
+//         // mock URL, can be simply replaced by `${Real_Production_URL}/summary` in prod!
+//         params: {
+//           from: years[0],
+//           to: years[1],
+//           office: office,
+//         },
+//       })
+//       .then(result => {
+//         stateSettingCallback(view, office, test_data); // <-- `test_data` here can be simply replaced by `result.data` in prod!
+//       })
+//       .catch(err => {
+//         console.error(err);
+//       });
+//   }
+// }
